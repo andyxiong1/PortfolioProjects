@@ -158,6 +158,8 @@ CREATE TABLE #percentVaccination (
 SELECT *, rollingVaccinations/population*100 'percentVaccinations'
 	FROM #percentVaccination
 
+------------------------------------------------------------------------------------------------------------------------
+	
 -- Views
 -- Creating view to store data for later visualizations
 
