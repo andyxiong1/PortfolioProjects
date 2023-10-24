@@ -16,7 +16,7 @@ SELECT *
 
 ------------------------------------------------------------------------------------------------------------------------
 
--- Select Data that we are going to be using
+-- Select relevant data
 
 SELECT continent, location, date, total_cases, new_cases, total_deaths, population
 	FROM PortfolioProject..CovidDeaths
@@ -161,9 +161,33 @@ SELECT *, rollingVaccinations/population*100 'percentVaccinations'
 ------------------------------------------------------------------------------------------------------------------------
 	
 -- Views
--- Creating view to store data for later visualizations
+-- Create views for visualizations
 
-CREATE VIEW percentVaccinated AS
+CREATE VIEW worldwideDeathRate AS
+	SELECT SUM(new_cases) 'totalCases', SUM(new_deaths) 'totalDeaths', SUM(new_deaths)/SUM(new_cases)*100 'percentDeath'
+		FROM PortfolioProject..CovidDeaths
+			WHERE continent IS NOT NULL
+
+CREATE VIEW totalDeathByContinent AS
+	SELECT location, SUM(new_deaths) 'totalDeathCount'
+		FROM PortfolioProject..CovidDeaths
+			WHERE continent IS NULL 
+				AND location NOT IN ('World', 'European Union', 'International', 'High income', 'Upper middle income', 'Lower middle income', 'Low income')
+		GROUP BY location
+
+CREATE VIEW percentedInfected AS
+	SELECT location, population, MAX(CONVERT(BIGINT, total_cases)) 'maxInfected',  MAX((CONVERT(BIGINT, total_cases)/population))*100 'percentPopulationInfected'
+		FROM PortfolioProject..CovidDeaths
+			WHERE location NOT IN ('World', 'European Union', 'International', 'High income', 'Upper middle income', 'Lower middle income', 'Low income')
+		GROUP BY location, population
+
+CREATE VIEW rollingInfectionRate AS
+	SELECT location, population, date, MAX(CONVERT(BIGINT, total_cases)) 'maxInfected',  MAX((CONVERT(BIGINT, total_cases)/population))*100 'rollingInfectionRate'
+		FROM PortfolioProject..CovidDeaths
+			WHERE continent IS NOT NULL
+		GROUP BY location, population, date
+
+CREATE VIEW rollingVaccinationRate AS
 	SELECT deaths.continent, deaths.location, deaths.date, deaths.population, vax.new_vaccinations
 	, SUM(CONVERT(DECIMAL, vax.new_vaccinations)) OVER (PARTITION BY deaths.location ORDER BY deaths.location, deaths.date) 'rollingVaccinations'
 		FROM PortfolioProject..CovidDeaths deaths
@@ -171,3 +195,5 @@ CREATE VIEW percentVaccinated AS
 				ON deaths.location = vax.location
 					AND deaths.date = vax.date
 		WHERE deaths.continent IS NOT NULL
+
+
