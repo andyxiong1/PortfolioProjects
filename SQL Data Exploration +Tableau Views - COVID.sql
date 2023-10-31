@@ -1,17 +1,16 @@
 /*
 
-	Covid 19 Data Exploration
+Covid 19 Data Exploration
 
-	Skills used:
-		Converting Data Types
-		Joins
-		CTEs
-		Temp Tables
-		Windows Functions
-		Aggregate Functions
-		Creating Views
+Skills used:
+- Converting Data Types
+- Joins
+- CTEs
+- Temp Tables
+- Windows Functions
+- Aggregate Functions
+- Creating Views
 		
-
 */
 
 SELECT *
@@ -169,14 +168,14 @@ SELECT *, rollingVaccinations/population*100 'percentVaccinations'
 ------------------------------------------------------------------------------------------------------------------------
 	
 /*
-	Views
+Views
 	
-	Create the following views for visualization:
-		- total deaths as a percent of total Covid cases
-		- total death count by continent
-		- percent of population that contracted Covid by country
-		- percent of population that contracted Covid by country and date
-		- total vaccinations by country and date
+Create the following views for visualization:
+- total deaths as a percent of total Covid cases
+- total death count by continent
+- percent of population that contracted Covid by country
+- percent of population that contracted Covid by country and date
+- total vaccinations by country and date
 
  */
 
