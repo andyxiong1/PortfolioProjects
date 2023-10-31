@@ -1,6 +1,6 @@
 /*
 
-Cleaning Data in SQL Queries
+SQL Cleaning Data
 
 */
 
@@ -12,14 +12,6 @@ SELECT *
 
 -- Standardize Date Format
 -- Remove time, which serves no purpose
-
-SELECT SaleDate, CONVERT(DATE, SaleDate) 'Date'
-	FROM PortfolioProject..NashvilleHousingMarket
-
-UPDATE NashvilleHousingMarket
-	SET SaleDate = CONVERT(Date, SaleDate)
-
--- If the above doesn't update properly...
 
 ALTER TABLE PortfolioProject..NashvilleHousingMarket
 	ADD convertedSaleDate Date;
